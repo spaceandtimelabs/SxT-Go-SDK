@@ -1,0 +1,10 @@
+// Sample Datalog file for biscuits
+
+capability("ddl_create",    "eth.testtable");
+capability("ddl_alter",     "eth.testtable");
+capability("ddl_drop",      "eth.testtable");
+capability("dml_insert",    "eth.testtable");
+capability("dml_update",    "eth.testtable");
+capability("dml_delete",    "eth.testtable");
+capability("dml_merge",     "eth.testtable");
+capability("dql_select",    "eth.testtable");
