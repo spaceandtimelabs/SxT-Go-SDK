@@ -27,7 +27,7 @@ It implements API V2 of Aws SDK (https://github.com/aws/aws-sdk-go-v2). Also acc
 
 -   **SQL support**
 
-    -   Support for DDL: `creating own schema (namespace), tables`; `altering and deleting tables`
+    -   Support for DDL: `creating own schema (namespace), tables`; `deleting tables`
     -   DML: Write all `CRUD` operations
     -   DQL: Any `select` operations
     -   SQL Views
@@ -174,12 +174,9 @@ originApp := "TEST"
 sqlcore.CreateSchema("CREATE SCHEMA ETH")
 
 // Only for create queries
-// For ALTER and DROP, use sqlcore.DDL()
+// For DROP, use sqlcore.DDL()
 sqlcore.CreateTable("CREATE TABLE ETH.TESTTABLE103 (id INT PRIMARY KEY, test VARCHAR)", "permissioned", biscuit, originApp, mb, publicKey)
 
-// Only for ALTER and DROP queries
-// For Create table queries, use sqlcore.CreateTable()
-sqlcore.DDL("ALTER TABLE ETH.TESTTABLE103 ADD TEST2 VARCHAR", biscuit, originApp, mb )
 
 // DML
 // use the sqlcore.DML to write insert, update, delete, and merge queries
