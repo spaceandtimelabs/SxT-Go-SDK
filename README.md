@@ -174,12 +174,12 @@ originApp := "TEST"
 sqlcore.CreateSchema("CREATE SCHEMA ETH")
 
 // Only for create queries
-// For ALTER and DROP, use sqlcore.DDL()
+// For DROP use sqlcore.DDL()
 sqlcore.CreateTable("CREATE TABLE ETH.TESTTABLE103 (id INT PRIMARY KEY, test VARCHAR)", "permissioned", biscuit, originApp, mb, publicKey)
 
-// Only for ALTER and DROP queries
+// Only for DROP queries
 // For Create table queries, use sqlcore.CreateTable()
-sqlcore.DDL("ALTER TABLE ETH.TESTTABLE103 ADD TEST2 VARCHAR", biscuit, originApp, mb )
+sqlcore.DDL("DROP TABLE ETH.TESTTABLE103", biscuit, originApp, mb )
 
 // DML
 // use the sqlcore.DML to write insert, update, delete, and merge queries
