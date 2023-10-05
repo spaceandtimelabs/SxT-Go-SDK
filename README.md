@@ -1,4 +1,4 @@
-# go-sxt-sdk (v.0.0.3)
+# go-sxt-sdk (v.0.0.1)
 
 Golang SDK for Space and Time Gateway (go version >= 1.18)
 
@@ -57,19 +57,14 @@ go run main.go
 To pass an existing user, use
 
 ```go
-go run main.go -userid=<USERID> -pubkey=<BASE64 STD ENCODED PUBLIC KEY> -privkey=<BASE64 STD ENCODED PRIVATE KEY>
+go run main.go -userid=<USERID> -pubkey=<BASE64 STD ENCODED PUBLIC KEY WITHOUT PADDING> -privkey=<BASE64 STD ENCODED PRIVATE KEY WITHOUT PADDING>
 
 // e.g
-// pubkey=SiQrMfU+TfRrqqeo/ZDoOwSrHd9zrG1BCU4oDz+4C4Q=
-// privkey=ys3hQPyfojJOzNymc0eWOKUiogQFGv3G+eeEDUBB8jpKJCsx9T5N9Guqp6j9kOg7BKsd33OsbUEJTigPP7gLhA=
-
-// The keys are provided for example and will not work
+// pubkey=SiQrMfU+TfRrqqeo/ZDoOwSrHd9zrG1BCU4oDz+4C4Q
+// privkey=ys3hQPyfojJOzNymc0eWOKUiogQFGv3G+eeEDUBB8jpKJCsx9T5N9Guqp6j9kOg7BKsd33OsbUEJTigPP7gLhA
 ```
 
 This will bypass the `userid` and `joincode` mentioned in **.env** file.
-
-**Note**
-_SxT libraries may generate a 32-byte or a 64-byte base64 encoded private key. A 64-byte is a combination of 32-byte secret and 32-byte public key_
 
 For details on running the `main.go` file, use
 
@@ -159,36 +154,26 @@ biscuit, _ := authorization.CreateBiscuitToken(sxtBiscuitCapabilities, &privateK
 
 To generate a new **schema**, `ddl_create` permission is needed
 
-For multi biscuit support and setting `originApp` for identifying logs
-
-```go
-// Create multiple biscuits
-mb := []string{biscuit}
-originApp := "TEST"
-```
-
-#### Queries
-
 ```go
 // Create a new schema
 sqlcore.CreateSchema("CREATE SCHEMA ETH")
 
 // Only for create queries
-// For DROP use sqlcore.DDL()
-sqlcore.CreateTable("CREATE TABLE ETH.TESTTABLE103 (id INT PRIMARY KEY, test VARCHAR)", "permissioned", biscuit, originApp, mb, publicKey)
+// For ALTER and DROP, use sqlcore.DDL()
+sqlcore.CreateTable("ETH.TESTTABLE103", "CREATE TABLE ETH.TESTTABLE103 (id INT PRIMARY KEY, test VARCHAR)", "permissioned", biscuit, publicKey)
 
-// Only for DROP queries
+// Only for ALTER and DROP queries
 // For Create table queries, use sqlcore.CreateTable()
-sqlcore.DDL("DROP TABLE ETH.TESTTABLE103", biscuit, originApp, mb )
+sqlcore.DDL("ETH.TESTTABLE103", "ALTER TABLE ETH.TESTTABLE103 ADD TEST2 VARCHAR", biscuit)
 
 // DML
 // use the sqlcore.DML to write insert, update, delete, and merge queries
-sqlcore.DML("ETH.TESTTABLE103", "insert into ETH.TESTTABLE103 values(5, 'x5')", biscuit, originApp, mb);
+sqlcore.DML("ETH.TESTTABLE103", "insert into ETH.TESTTABLE103 values(5, 'x5')", biscuit);
 
 // DQL
 // Select operations
 // If rowCount is 0, then fetches all data without limit
-sqlcore.DQL("ETH.TESTTABLE103", "select * from ETH.TESTTABLE103", biscuit, originApp, mb, 0);
+sqlcore.DQL("ETH.TESTTABLE103", "select * from ETH.TESTTABLE103", biscuit, 0);
 ```
 
 -   **DISCOVERY**

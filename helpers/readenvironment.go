@@ -41,8 +41,8 @@ func ReadJoinCode() (value string, ok bool){
 	return value, ok
 }
 
-// Read API End Point from Environment 
-func ReadEndPoint() (value string, ok bool){
+// Read API End Point Discovery from Environment 
+func ReadEndPointDiscovery() (value string, ok bool){
 
 	err := godotenv.Load(filepath.Join("./", ".env"))
 	if err != nil {
@@ -50,10 +50,27 @@ func ReadEndPoint() (value string, ok bool){
 	} 
 
 
-	value, ok = os.LookupEnv("BASEURL")
+	value, ok = os.LookupEnv("BASEURL_DISCOVERY")
 
 	if !ok {
-		log.Fatal("BASEURL not set in environment")
+		log.Fatal("Discovery BASEURL not set in environment")
+	}
+	return value, ok
+}
+
+// Read API End Point Others in General from Environment 
+func ReadEndPointGeneral() (value string, ok bool){
+
+	err := godotenv.Load(filepath.Join("./", ".env"))
+	if err != nil {
+		log.Fatal(err.Error())
+	} 
+
+
+	value, ok = os.LookupEnv("BASEURL_GENERAL")
+
+	if !ok {
+		log.Fatal("General BASEURL not set in environment")
 	}
 	return value, ok
 }

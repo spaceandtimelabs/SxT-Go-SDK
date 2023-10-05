@@ -12,7 +12,7 @@ import (
 // Run all DML queries
 // biscuit is optional
 func DML(resourceId, sqlText, biscuit, originApp  string, biscuitArray []string) (errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/dml"
 
 	re, r := helpers.CheckUpperCaseResource(resourceId)

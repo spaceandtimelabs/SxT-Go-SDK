@@ -254,20 +254,10 @@ func main() {
 
 	// DDL
 	// Only for create queries
-	// For DROP, use sqlcore.DDL()
-	e, s := sqlcore.CreateTable("CREATE TABLE ETH.TESTTABLE106 (id INT PRIMARY KEY, test VARCHAR)", "permissioned", biscuit, originApp, mb, publicKey)
-	if !s {
-		log.Println(e)
-	} else {
-		log.Println("SUCCESS")
-	}
+	// For ALTER and DROP, use sqlcore.DDL()
+	sqlcore.CreateTable("CREATE TABLE ETH.TESTTABLE106 (id INT PRIMARY KEY, test VARCHAR)", "permissioned", biscuit, originApp, mb, publicKey)
 
-	// DDL
-	// Only for DROP queries
-	// For Create table queries, use sqlcore.CreateTable()
-	// Note: In this example, it will fail because the biscuit doesnt allow DROP.
-	// For this to work, you will need to provide permissions in biscuit first
-	sqlcore.DDL("DROP TABLE ETH.TESTTABLE106", biscuit, originApp, mb )
+
 
 	// DML
 	// use the sqlcore.DML to write insert, update, delete, and merge queries
@@ -276,7 +266,19 @@ func main() {
 	// DQL
 	// Select operations
 	// If rowCount is 0, then fetches all data without limit
-	sqlcore.DQL("ETH.TESTTABLE106", "select * from ETH.TESTTABLE106", biscuit, originApp, mb,  0)
+	d, e, s := sqlcore.DQL("ETH.TESTTABLE106", "select * from ETH.TESTTABLE106", biscuit, originApp, mb,  0)
+	if !s {
+		log.Println(e)
+	} else {
+		log.Println(d)
+	}
+
+	// DDL
+	// Only for ALTER and DROP queries
+	// For Create table queries, use sqlcore.CreateTable()
+	// Note: In this example, it will fail because the biscuit doesnt allow ALTER or DROP.
+	// For this to work, you will need to provide permissions in biscuit first
+	sqlcore.DDL("ALTER TABLE ETH.TESTTABLE106 ADD TEST2 VARCHAR", biscuit, originApp, mb )
 
 	/*************************************
 	// SQL VIEW

@@ -18,7 +18,7 @@ type ParametersRequest struct{
 // Create sql view
 // parameterRequest is optional
 func Create(resourceId, viewName, viewText, description string, publish bool, parametersRequest []ParametersRequest) (output, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/views"
 
 	re, r := helpers.CheckUpperCaseResource(resourceId)
@@ -81,7 +81,7 @@ func Create(resourceId, viewName, viewText, description string, publish bool, pa
 // Execute a view
 // parameterRequest is optional
 func Execute(viewName string, parametersRequest []ParametersRequest) (errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/views/"+ url.QueryEscape(viewName)
 
 	paramString := ""
@@ -123,7 +123,7 @@ func Execute(viewName string, parametersRequest []ParametersRequest) (errMsg str
 // Update sql view
 // parameterRequest is optional
 func Update(resourceId, viewName, viewText, description string, publish bool, parametersRequest []ParametersRequest) (output, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/views/"+ viewName
 
 	re, r := helpers.CheckUpperCaseResource(resourceId)
@@ -187,7 +187,7 @@ func Update(resourceId, viewName, viewText, description string, publish bool, pa
 // Delete sql view
 // parameterRequest is optional
 func Delete(viewName string) (output, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/views/"+ viewName
 
 	client := http.Client{}

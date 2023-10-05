@@ -12,7 +12,7 @@ import (
 // Run all DQL queries
 // rowCount is optional
 func DQL(resourceId, sqlText, biscuit, originApp string, biscuitArray []string, rowCount int) (data []byte, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/dql"
 
 	re, r := helpers.CheckUpperCaseResource(resourceId)

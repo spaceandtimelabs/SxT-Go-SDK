@@ -9,7 +9,7 @@ import (
 
 // List available namespaces in the blockchain
 func ListNamespaces()(namespaces string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 	tokenEndPoint := apiEndPoint + "/discover/namespace"
 
 	return executeRequest(tokenEndPoint)
@@ -18,7 +18,7 @@ func ListNamespaces()(namespaces string, errMsg string, status bool){
 /* List tables in a given namespace
  Possible scope values -  ALL = all resources, PUBLIC = non-permissioned tables, PRIVATE = tables created by the requesting user*/
 func ListTables(namespace, scope string)(tables string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 	status = true
 
 	re, r := helpers.CheckUpperCase(namespace)
@@ -36,7 +36,7 @@ func ListTables(namespace, scope string)(tables string, errMsg string, status bo
 
 // List columns in a given namespace and a table
 func ListColumns(namespace, table string)(columns string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 	status = true
 
 	re, r := helpers.CheckUpperCase(namespace)
@@ -56,7 +56,7 @@ func ListColumns(namespace, table string)(columns string, errMsg string, status 
 
 // List table index in a given namespace and a table
 func ListTableIndex(namespace, table string)(indexes string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 
 	status = true
 
@@ -77,7 +77,7 @@ func ListTableIndex(namespace, table string)(indexes string, errMsg string, stat
 
 // List table primary keys in a given namespace and a table
 func ListTablePrimaryKey(namespace, table string)(primaryKeys string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 
 	status = true
 
@@ -99,7 +99,7 @@ func ListTablePrimaryKey(namespace, table string)(primaryKeys string, errMsg str
 // List table relationships in a given namespace and a table
 // Scope can be PRIVATE, PUBLIC, ALL
 func ListTableRelations(namespace, scope string)(relations string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 
 	status = true
 
@@ -114,7 +114,7 @@ func ListTableRelations(namespace, scope string)(relations string, errMsg string
 
 // List primary key references in a given namespace and a table and a column
 func ListPrimaryKeyReferences(namespace, table, column string)(primaryKeyReferences string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 	
 	status = true
 
@@ -139,7 +139,7 @@ func ListPrimaryKeyReferences(namespace, table, column string)(primaryKeyReferen
 
 // List foreign key references in a given namespace and a table and a column
 func ListForeignKeyReferences(namespace, table, column string)(foreignKeyReferences string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 
 	status = true
 
@@ -161,7 +161,7 @@ func ListForeignKeyReferences(namespace, table, column string)(foreignKeyReferen
 // owned values can be a "", 'true', 'false'. All string not boolean
 // Both parameters are optional
 func ListViews(name, owned string)(foreignKeyReferences string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 	tokenEndPoint := apiEndPoint + "/discover/views?"
 
 	entryExist := 0

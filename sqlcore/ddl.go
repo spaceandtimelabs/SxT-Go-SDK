@@ -14,7 +14,7 @@ import (
 // Create a new table on a given namespace.
 // accessType: can be public, permissioned or encrypted. Read more here https://docs.spaceandtime.io/docs/secure-your-table
 func CreateTable(sqlText, accessType, biscuit, originApp string, biscuitArray []string, publicKey ed25519.PublicKey)(errMsg string, status bool) {
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/ddl"
 
 	client := http.Client{}
@@ -56,7 +56,7 @@ func CreateTable(sqlText, accessType, biscuit, originApp string, biscuitArray []
 
 // DDL queries for ALTER and DROP
 func DDL(sqlText, biscuit, originApp  string, biscuitArray []string) (errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/ddl"
 
 	client := http.Client{}
@@ -99,7 +99,7 @@ func DDL(sqlText, biscuit, originApp  string, biscuitArray []string) (errMsg str
 
 // Create a new schema
 func CreateSchema(sqlText, originApp  string, biscuitArray []string)(errMsg string, status bool) {
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/ddl"
 
 	client := http.Client{}
