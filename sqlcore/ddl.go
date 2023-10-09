@@ -13,7 +13,7 @@ import (
 
 // Create a new table on a given namespace.
 // accessType: can be public, permissioned or encrypted. Read more here https://docs.spaceandtime.io/docs/secure-your-table
-func CreateTable(sqlText, accessType, biscuit, originApp string, biscuitArray []string, publicKey ed25519.PublicKey)(errMsg string, status bool) {
+func CreateTable(sqlText, accessType, originApp string, biscuitArray []string, publicKey ed25519.PublicKey)(errMsg string, status bool) {
 	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/ddl"
 
@@ -33,7 +33,6 @@ func CreateTable(sqlText, accessType, biscuit, originApp string, biscuitArray []
 	req.Header.Add("Authorization", "Bearer "+os.Getenv("accessToken"))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
-	req.Header.Add("Biscuit", biscuit)
 	req.Header.Add("originApp", originApp)
 
 	res, err := client.Do(req)
@@ -55,7 +54,7 @@ func CreateTable(sqlText, accessType, biscuit, originApp string, biscuitArray []
 }
 
 // DDL queries for ALTER and DROP
-func DDL(sqlText, biscuit, originApp  string, biscuitArray []string) (errMsg string, status bool){
+func DDL(sqlText, originApp  string, biscuitArray []string) (errMsg string, status bool){
 	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/ddl"
 
@@ -75,7 +74,6 @@ func DDL(sqlText, biscuit, originApp  string, biscuitArray []string) (errMsg str
 	req.Header.Add("Authorization", "Bearer "+os.Getenv("accessToken"))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
-	req.Header.Add("Biscuit", biscuit)
 	req.Header.Add("originApp", originApp)
 
 	res, err := client.Do(req)

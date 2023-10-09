@@ -10,20 +10,15 @@ import (
 )
 
 // Run all DML queries
-// biscuit is optional
-func DML(resourceId, sqlText, biscuit, originApp  string, biscuitArray []string) (errMsg string, status bool){
+func DML(sqlText, originApp  string, biscuitArray []string, resources []string) (errMsg string, status bool){
 	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/dml"
 
-	re, r := helpers.CheckUpperCaseResource(resourceId)
-	if !r {
-		return re, r
-	}
 
 	client := http.Client{}
 	postBody, _ := json.Marshal(map[string]interface{}{
 		"biscuits": biscuitArray,
-		"resourceId": resourceId,
+		"resources": resources,
 		"sqlText":    sqlText,
 	})
 
@@ -37,7 +32,6 @@ func DML(resourceId, sqlText, biscuit, originApp  string, biscuitArray []string)
 	req.Header.Add("Authorization", "Bearer "+os.Getenv("accessToken"))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
-	req.Header.Add("Biscuit", biscuit)
 	req.Header.Add("originApp", originApp)
 	
 
