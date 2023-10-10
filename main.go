@@ -254,29 +254,31 @@ func main() {
 
 	// DDL
 	// Only for create queries
-	// For DROP, use sqlcore.DDL()
-	e, s := sqlcore.CreateTable("CREATE TABLE ETH.TESTTABLE106 (id INT PRIMARY KEY, test VARCHAR)", "permissioned", biscuit, originApp, mb, publicKey)
-	if !s {
-		log.Println(e)
-	} else {
-		log.Println("SUCCESS")
-	}
+	// For ALTER and DROP, use sqlcore.DDL()
+	sqlcore.CreateTable("CREATE TABLE ETH.TESTTABLE106 (id INT PRIMARY KEY, test VARCHAR)", "ALL", originApp, mb, publicKey)
 
-	// DDL
-	// Only for DROP queries
-	// For Create table queries, use sqlcore.CreateTable()
-	// Note: In this example, it will fail because the biscuit doesnt allow DROP.
-	// For this to work, you will need to provide permissions in biscuit first
-	sqlcore.DDL("DROP TABLE ETH.TESTTABLE106", biscuit, originApp, mb )
+
 
 	// DML
 	// use the sqlcore.DML to write insert, update, delete, and merge queries
-	sqlcore.DML("ETH.TESTTABLE106", "insert into ETH.TESTTABLE106 values(5, 'x5')", biscuit, originApp, mb)
+	resources := []string{"ETH.TESTTABLE106"}
+	sqlcore.DML("insert into ETH.TESTTABLE106 values(5, 'x5')", originApp, mb, resources)
 
 	// DQL
 	// Select operations
 	// If rowCount is 0, then fetches all data without limit
-	sqlcore.DQL("ETH.TESTTABLE106", "select * from ETH.TESTTABLE106", biscuit, originApp, mb,  0)
+	d, e, s := sqlcore.DQL("select * from ETH.TESTTABLE106", originApp, mb, resources, 0)
+	if !s {
+		log.Println(e)
+	} else {
+		log.Println(d)
+	}
+
+	// DDL
+	// Only for ALTER and DROP queries
+	// For Create table queries, use sqlcore.CreateTable()
+	// For this to work, you will need to provide permissions in biscuit first
+	sqlcore.DDL("DROP TABLE ETH.TESTTABLE106", originApp, mb  )
 
 	/*************************************
 	// SQL VIEW
@@ -303,42 +305,45 @@ func main() {
 	// DISCOVERY APIS
 	*************************************/
 
-	// List Namespaces
-	discovery.ListNamespaces()
+	// List Schemas
+	discovery.ListSchemas("ALL", "")
 
-	// List Tables in a given namespace
-	// Possible scope values -  ALL = all resources, PUBLIC = non-permissioned tables, PRIVATE = tables created by the requesting user
-	// Note: Namespace and table names are case sensitive. Upper cased
-	discovery.ListTables("ETH", "ALL")
+	// List Tables in a given schema
+	// Possible scope values -  
+	// 1. ALL = all resources, 
+	// 2. PUBLIC = non-permissioned tables, 
+	// 3. PRIVATE = tables created by the requesting user
+	// 4. SUBSCRIPTION =  include all resources the requesting user can see
+	// Note: schema and table names are case sensitive. Upper cased
+	discovery.ListTables("ETH", "ALL", "")
 
-	// List Columns for a given table in namespace
-	// Note: Namespace and table names are case sensitive. Upper cased
+	// List Columns for a given table in schema
+	// Note: schema and table names are case sensitive. Upper cased
 	discovery.ListColumns("ETH", "TESTTABLE106")
 
-	// List table index for a given table in namespace
-	// Note: Namespace and table names are case sensitive. Upper cased
+	// List table index for a given table in schema
+	// Note: schema and table names are case sensitive. Upper cased
 	discovery.ListTableIndex("ETH", "TESTTABLE106")
 
-	// List table primary key for a given table in namespace
-	// Note: Namespace and table names are case sensitive. Upper cased
+	// List table primary key for a given table in schema
+	// Note: schema and table names are case sensitive. Upper cased
 	discovery.ListTablePrimaryKey("ETH", "TESTTABLE106")
 
-	// List table relations for a namespace and scope
-	// Possible scope values -  ALL = all resources, PUBLIC = non-permissioned tables, PRIVATE = tables created by the requesting user
-	// Note: Namespace and table names are case sensitive. Upper cased
+	// List table relations for a schema and scope
+	// Note: schema and table names are case sensitive. Upper cased
 	discovery.ListTableRelations("ETH", "PRIVATE")
 
-	// List table primary key references for a table and a namespace
-	// Note: Namespace and table names are case sensitive. Upper cased
+	// List table primary key references for a table and a schema
+	// Note: schema and table names are case sensitive. Upper cased
 	discovery.ListPrimaryKeyReferences("ETH", "TESTTABLE106", "TEST")
 
-	// List foreign key references for a table, column and a namespace
-	// Note: Namespace and table names are case sensitive. Upper cased
+	// List foreign key references for a table, column and a schema
+	// Note: schema and table names are case sensitive. Upper cased
 	discovery.ListForeignKeyReferences("ETH", "TESTTABLE106", "TEST")
 
 	// List views for a view name for a owner
 	// Second parameter can be "", "true" or "false". It accepts a string and not a boolean
-	// Note: Namespace and table names are case sensitive. Upper cased
+	// Note: schema and table names are case sensitive. Upper cased
 	discovery.ListViews("SOME_VIEW_NAME", "")
 
 }

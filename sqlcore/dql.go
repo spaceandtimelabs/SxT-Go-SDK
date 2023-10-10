@@ -11,14 +11,10 @@ import (
 
 // Run all DQL queries
 // rowCount is optional
-func DQL(resourceId, sqlText, biscuit, originApp string, biscuitArray []string, rowCount int) (data []byte, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+func DQL(sqlText, originApp string, biscuitArray, resources []string, rowCount int) (data []byte, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/sql/dql"
 
-	re, r := helpers.CheckUpperCaseResource(resourceId)
-	if !r {
-		return nil, re, r
-	}
 	
 	client := http.Client{}
 	var postBody []byte;
@@ -26,14 +22,14 @@ func DQL(resourceId, sqlText, biscuit, originApp string, biscuitArray []string, 
 	if rowCount > 0 {
 		postBody, _ = json.Marshal(map[string]interface{}{
 			"biscuits": biscuitArray,
-			"resourceId": resourceId,
+			"resources": resources,
 			"sqlText":    sqlText,
 			"rowCount": rowCount,
 		})
 	} else {
 		postBody, _ = json.Marshal(map[string]interface{}{
 			"biscuits": biscuitArray,
-			"resourceId": resourceId,
+			"resources": resources,
 			"sqlText":    sqlText,
 		})
 	}
@@ -49,7 +45,6 @@ func DQL(resourceId, sqlText, biscuit, originApp string, biscuitArray []string, 
 	req.Header.Add("Authorization", "Bearer "+os.Getenv("accessToken"))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
-	req.Header.Add("Biscuit", biscuit)
 
 	res, err := client.Do(req)
 	if err != nil {

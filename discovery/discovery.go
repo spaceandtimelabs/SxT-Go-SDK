@@ -8,38 +8,45 @@ import (
 )
 
 // List available namespaces in the blockchain
-func ListNamespaces()(namespaces string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
-	tokenEndPoint := apiEndPoint + "/discover/namespace"
+func ListSchemas(scope, searchPattern string)(schemas string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
+	tokenEndPoint := apiEndPoint + "/discover/schema?scope=" + scope
+	if searchPattern != ""{
+		tokenEndPoint += tokenEndPoint + "&searchPattern=" + searchPattern
+	}
 
 	return executeRequest(tokenEndPoint)
 }
 
-/* List tables in a given namespace
+/* List tables in a given schema
  Possible scope values -  ALL = all resources, PUBLIC = non-permissioned tables, PRIVATE = tables created by the requesting user*/
-func ListTables(namespace, scope string)(tables string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+func ListTables(schema, scope, searchPattern string)(tables string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 	status = true
 
-	re, r := helpers.CheckUpperCase(namespace)
+	re, r := helpers.CheckUpperCase(schema)
 	if !r {
 		return "", re, r
 	}
 	
 	tokenEndPoint := apiEndPoint + "/discover/table?scope=" + scope
-	if namespace != ""{
-		tokenEndPoint += "&namespace=" + namespace
+	if schema != ""{
+		tokenEndPoint += "&schema=" + schema
+	}
+
+	if searchPattern != ""{
+		tokenEndPoint += tokenEndPoint + "&searchPattern=" + searchPattern
 	}
 
 	return executeRequest(tokenEndPoint)
 }
 
-// List columns in a given namespace and a table
-func ListColumns(namespace, table string)(columns string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+// List columns in a given schema and a table
+func ListColumns(schema, table string)(columns string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 	status = true
 
-	re, r := helpers.CheckUpperCase(namespace)
+	re, r := helpers.CheckUpperCase(schema)
 	if !r {
 		return "", re, r
 	}
@@ -49,18 +56,18 @@ func ListColumns(namespace, table string)(columns string, errMsg string, status 
 		return "", re, r
 	}
 
-	tokenEndPoint := apiEndPoint + "/discover/table/column?table=" + table + "&namespace=" + namespace
+	tokenEndPoint := apiEndPoint + "/discover/table/column?table=" + table + "&schema=" + schema
 
 	return executeRequest(tokenEndPoint)
 }
 
-// List table index in a given namespace and a table
-func ListTableIndex(namespace, table string)(indexes string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+// List table index in a given schema and a table
+func ListTableIndex(schema, table string)(indexes string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 
 	status = true
 
-	re, r := helpers.CheckUpperCase(namespace)
+	re, r := helpers.CheckUpperCase(schema)
 	if !r {
 		return "", re, r
 	}
@@ -70,18 +77,18 @@ func ListTableIndex(namespace, table string)(indexes string, errMsg string, stat
 		return "", re, r
 	}
 
-	tokenEndPoint := apiEndPoint + "/discover/table/index?table=" + table + "&namespace=" + namespace
+	tokenEndPoint := apiEndPoint + "/discover/table/index?table=" + table + "&schema=" + schema
 
 	return executeRequest(tokenEndPoint)
 }
 
-// List table primary keys in a given namespace and a table
-func ListTablePrimaryKey(namespace, table string)(primaryKeys string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+// List table primary keys in a given schema and a table
+func ListTablePrimaryKey(schema, table string)(primaryKeys string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 
 	status = true
 
-	re, r := helpers.CheckUpperCase(namespace)
+	re, r := helpers.CheckUpperCase(schema)
 	if !r {
 		return "", re, r
 	}
@@ -91,34 +98,34 @@ func ListTablePrimaryKey(namespace, table string)(primaryKeys string, errMsg str
 		return "", re, r
 	}
 
-	tokenEndPoint := apiEndPoint + "/discover/table/primarykey?table=" + table + "&namespace=" + namespace
+	tokenEndPoint := apiEndPoint + "/discover/table/primarykey?table=" + table + "&schema=" + schema
 
 	return executeRequest(tokenEndPoint)
 }
 
-// List table relationships in a given namespace and a table
+// List table relationships in a given schema and a table
 // Scope can be PRIVATE, PUBLIC, ALL
-func ListTableRelations(namespace, scope string)(relations string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+func ListTableRelations(schema, scope string)(relations string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 
 	status = true
 
-	re, r := helpers.CheckUpperCase(namespace)
+	re, r := helpers.CheckUpperCase(schema)
 	if !r {
 		return "", re, r
 	}
 
-	tokenEndPoint := apiEndPoint + "/discover/table/relations?scope=" + scope + "&namespace=" + namespace
+	tokenEndPoint := apiEndPoint + "/discover/table/relations?scope=" + scope + "&schema=" + schema
 	return executeRequest(tokenEndPoint)
 }
 
-// List primary key references in a given namespace and a table and a column
-func ListPrimaryKeyReferences(namespace, table, column string)(primaryKeyReferences string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+// List primary key references in a given schema and a table and a column
+func ListPrimaryKeyReferences(schema, table, column string)(primaryKeyReferences string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 	
 	status = true
 
-	re, r := helpers.CheckUpperCase(namespace)
+	re, r := helpers.CheckUpperCase(schema)
 	if !r {
 		return "", re, r
 	}
@@ -133,13 +140,13 @@ func ListPrimaryKeyReferences(namespace, table, column string)(primaryKeyReferen
 		return "", re, r
 	}
 
-	tokenEndPoint := apiEndPoint + "/discover/refs/primarykey?table=" + table + "&namespace=" + namespace + "&column=" + column
+	tokenEndPoint := apiEndPoint + "/discover/refs/primarykey?table=" + table + "&schema=" + schema + "&column=" + column
 	return executeRequest(tokenEndPoint)
 }
 
-// List foreign key references in a given namespace and a table and a column
-func ListForeignKeyReferences(namespace, table, column string)(foreignKeyReferences string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+// List foreign key references in a given schema and a table and a column
+func ListForeignKeyReferences(schema, table, column string)(foreignKeyReferences string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 
 	status = true
 
@@ -153,15 +160,42 @@ func ListForeignKeyReferences(namespace, table, column string)(foreignKeyReferen
 		return "", re, r
 	}
 
-	tokenEndPoint := apiEndPoint + "/discover/refs/foreignkey?table=" + table + "&namespace=" + namespace + "&column=" + column
+	tokenEndPoint := apiEndPoint + "/discover/refs/foreignkey?table=" + table + "&schema=" + schema + "&column=" + column
+	return executeRequest(tokenEndPoint)
+}
+
+// List Blockchains
+func ListBlockchains( )(blockchains string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
+	tokenEndPoint := apiEndPoint + "/discover/blockchains"
+
+	return executeRequest(tokenEndPoint)
+}
+
+
+// List Blockchains
+func ListBlockchainSchemas(chainId string)(blockchainSchema string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
+	
+	tokenEndPoint := apiEndPoint + "/discover/blockchains/" + chainId + "/schemas"
+
+	return executeRequest(tokenEndPoint)
+}
+
+// List Blockchain Information
+func ListBlockchainInformation(chainId string)(blockchainInformation string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
+	
+	tokenEndPoint := apiEndPoint + "/discover/blockchains/" + chainId + "/meta"
+
 	return executeRequest(tokenEndPoint)
 }
 
 // List views
 // owned values can be a "", 'true', 'false'. All string not boolean
 // Both parameters are optional
-func ListViews(name, owned string)(foreignKeyReferences string, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPoint()
+func ListViews(name, owned string)(views string, errMsg string, status bool){
+	apiEndPoint, _ := helpers.ReadEndPointDiscovery()
 	tokenEndPoint := apiEndPoint + "/discover/views?"
 
 	entryExist := 0

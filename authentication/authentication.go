@@ -30,7 +30,7 @@ type TokenStruct struct {
 // Generate auth code
 func GenerateAuthCode(userId, joinCode string) (authCode string) {
 
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	codeEndPoint := apiEndPoint + "/auth/code"
 
 	postBody, _ := json.Marshal(map[string]string{
@@ -73,7 +73,7 @@ func GenerateKeys(authCode string, pubkey ed25519.PublicKey, privkey ed25519.Pri
 // Generate accessToken, refreshToken
 func GenerateToken(userId, authCode, encodedSignature, base64PublicKey string) (token string) {
 
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	scheme, _ := helpers.ReadScheme()
 	tokenEndPoint := apiEndPoint + "/auth/token"
 
@@ -105,7 +105,7 @@ func GenerateToken(userId, authCode, encodedSignature, base64PublicKey string) (
 
 // Get new accesstoken and refreshToken from provided `refreshToken`
 func RefreshToken(refreshToken string) (tokenStruct TokenStruct, status bool) {
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/auth/refresh"
 
 	client := http.Client{}
@@ -137,7 +137,7 @@ func RefreshToken(refreshToken string) (tokenStruct TokenStruct, status bool) {
 
 // validate access token, if its active
 func ValidateToken(accessToken string) (status bool) {
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/auth/validtoken"
 
 	client := http.Client{}
@@ -172,7 +172,7 @@ func ValidateToken(accessToken string) (status bool) {
 // Logout user
 func Logout() {
 
-	apiEndPoint, _ := helpers.ReadEndPoint()
+	apiEndPoint, _ := helpers.ReadEndPointGeneral()
 	tokenEndPoint := apiEndPoint + "/auth/logout"
 
 	client := http.Client{}
