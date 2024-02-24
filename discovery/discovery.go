@@ -173,7 +173,8 @@ func executeRequest(endpoint string) (output string, errMsg string, status bool)
 		return "", err.Error(), false
 	}
 
-	req.Header.Add("Authorization", "Bearer "+os.Getenv("accessToken"))
+	bearerToken := fmt.Sprintf("Bearer %s", os.Getenv("accessToken"))
+	req.Header.Add("Authorization", bearerToken)
 
 	res, err := client.Do(req)
 	if err != nil {
