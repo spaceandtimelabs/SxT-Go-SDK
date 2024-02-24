@@ -15,7 +15,12 @@ func GetDiscoverEndpoint(subpath string) (endpoint string) {
 }
 
 func getEndpointByType(endpointType, subpath string) (endpoint string) {
-	apiEndPoint, _ := ReadEndPointDiscovery()
+	apiEndPoint, _ := ReadEndPointGeneral()
+
+	if endpointType == "discover" {
+		apiEndPoint, _ = ReadEndPointDiscovery()
+	}
+
 	segments := []string{apiEndPoint, endpointType, subpath}
 
 	return strings.Join(segments, "/")
