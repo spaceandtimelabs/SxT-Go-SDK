@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 	"sxt-sdks/helpers"
 )
 
@@ -136,7 +137,8 @@ func listBlockchainInfo(chainId, infoType string) (blockchainInformation string,
 		return executeRequest(discoverBlockchainsEndpoint)
 	}
 
-	tokenEndPoint := fmt.Sprintf("%s/%s/%s", discoverBlockchainsEndpoint, chainId, infoType)
+	segments := []string{discoverBlockchainsEndpoint, chainId, infoType}
+	tokenEndPoint := strings.Join(segments, "/")
 
 	return executeRequest(tokenEndPoint)
 }
