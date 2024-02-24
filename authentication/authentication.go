@@ -29,10 +29,7 @@ type TokenStruct struct {
 
 // Generate auth code
 func GenerateAuthCode(userId, joinCode string) (authCode string) {
-
-	apiEndPoint, _ := helpers.ReadEndPointGeneral()
-	codeEndPoint := apiEndPoint + "/auth/code"
-
+	codeEndPoint := helpers.GetAuthenticationEndpoint("code")
 	postBody, _ := json.Marshal(map[string]string{
 		"userId":   userId,
 		"joinCode": joinCode,
@@ -51,13 +48,12 @@ func GenerateAuthCode(userId, joinCode string) (authCode string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	sb := string(body)
-	return sb
+	authenticationCode := string(body)
+	return authenticationCode
 }
 
 // Generate Encoded signature and base64 public key
 func GenerateKeys(authCode string, pubkey ed25519.PublicKey, privkey ed25519.PrivateKey) (encodedSignature, base64PublicKey string) {
-
 	signature, eSignature := privkey.Sign(rand.Reader, []byte(authCode), crypto.Hash(0))
 	if eSignature != nil {
 		log.Fatalln("Signature Error", eSignature.Error())
@@ -72,11 +68,8 @@ func GenerateKeys(authCode string, pubkey ed25519.PublicKey, privkey ed25519.Pri
 
 // Generate accessToken, refreshToken
 func GenerateToken(userId, authCode, encodedSignature, base64PublicKey string) (token string) {
-
-	apiEndPoint, _ := helpers.ReadEndPointGeneral()
+	tokenEndPoint := helpers.GetAuthenticationEndpoint("token")
 	scheme, _ := helpers.ReadScheme()
-	tokenEndPoint := apiEndPoint + "/auth/token"
-
 	postBody, _ := json.Marshal(map[string]string{
 		"userId":    userId,
 		"authCode":  authCode,
@@ -105,10 +98,7 @@ func GenerateToken(userId, authCode, encodedSignature, base64PublicKey string) (
 
 // Get new accesstoken and refreshToken from provided `refreshToken`
 func RefreshToken(refreshToken string) (tokenStruct TokenStruct, status bool) {
-	apiEndPoint, _ := helpers.ReadEndPointGeneral()
-	tokenEndPoint := apiEndPoint + "/auth/refresh"
-
-	client := http.Client{}
+	tokenEndPoint := helpers.GetAuthenticationEndpoint("refresh")
 	req, err := http.NewRequest("POST", tokenEndPoint, nil)
 	if err != nil {
 		return TokenStruct{}, false
@@ -116,6 +106,7 @@ func RefreshToken(refreshToken string) (tokenStruct TokenStruct, status bool) {
 
 	req.Header.Add("Authorization", "Bearer "+refreshToken)
 
+	client := http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
 		return TokenStruct{}, false
@@ -127,8 +118,8 @@ func RefreshToken(refreshToken string) (tokenStruct TokenStruct, status bool) {
 		return TokenStruct{}, false
 	}
 
-	e := json.Unmarshal(body, &tokenStruct)
-	if e != nil {
+	err = json.Unmarshal(body, &tokenStruct)
+	if err != nil {
 		return TokenStruct{}, false
 	}
 
@@ -137,9 +128,7 @@ func RefreshToken(refreshToken string) (tokenStruct TokenStruct, status bool) {
 
 // validate access token, if its active
 func ValidateToken(accessToken string) (status bool) {
-	apiEndPoint, _ := helpers.ReadEndPointGeneral()
-	tokenEndPoint := apiEndPoint + "/auth/validtoken"
-
+	tokenEndPoint := helpers.GetAuthenticationEndpoint("validtoken")
 	client := http.Client{}
 	req, err := http.NewRequest("GET", tokenEndPoint, nil)
 	if err != nil {
@@ -160,21 +149,13 @@ func ValidateToken(accessToken string) (status bool) {
 	}
 
 	strLen := len(string(body))
-	if strLen <= 0 {
-		status = false
-	} else {
-		status = true
-	}
 
-	return status
+	return strLen > 0
 }
 
 // Logout user
 func Logout() {
-
-	apiEndPoint, _ := helpers.ReadEndPointGeneral()
-	tokenEndPoint := apiEndPoint + "/auth/logout"
-
+	tokenEndPoint := helpers.GetAuthenticationEndpoint("logout")
 	client := http.Client{}
 	req, err := http.NewRequest("POST", tokenEndPoint, nil)
 	if err != nil {
