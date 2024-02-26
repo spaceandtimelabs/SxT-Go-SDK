@@ -1,52 +1,21 @@
 package sqlcore
 
 import (
-	"bytes"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
-	"os"
-	"sxt-sdks/helpers"
 )
 
 // Run all DQL queries
 // rowCount is optional
-func DQL(sqlText, originApp string, biscuitArray, resources []string, rowCount int) (data []byte, errMsg string, status bool){
-	apiEndPoint, _ := helpers.ReadEndPointGeneral()
-	tokenEndPoint := apiEndPoint + "/sql/dql"
-
-	
-	client := http.Client{}
-	var postBody []byte;
-
-	if rowCount > 0 {
-		postBody, _ = json.Marshal(map[string]interface{}{
-			"biscuits": biscuitArray,
-			"resources": resources,
-			"sqlText":    sqlText,
-			"rowCount": rowCount,
-		})
-	} else {
-		postBody, _ = json.Marshal(map[string]interface{}{
-			"biscuits": biscuitArray,
-			"resources": resources,
-			"sqlText":    sqlText,
-		})
-	}
-	
-
-	responseBody := bytes.NewBuffer(postBody)
-
-	req, err := http.NewRequest("POST", tokenEndPoint, responseBody)
+func DQL(sqlText, originApp string, biscuitArray, resources []string, rowCount int) (data []byte, errMsg string, status bool) {
+	request, err := createQueryExecutionRequest(sqlText, originApp, biscuitArray, resources)
 	if err != nil {
 		return data, err.Error(), false
 	}
 
-	req.Header.Add("Authorization", "Bearer "+os.Getenv("accessToken"))
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Accept", "application/json")
-
-	res, err := client.Do(req)
+	client := http.Client{}
+	res, err := client.Do(request)
 	if err != nil {
 		return data, err.Error(), false
 	}
@@ -61,6 +30,15 @@ func DQL(sqlText, originApp string, biscuitArray, resources []string, rowCount i
 		return data, string(body), false
 	}
 
-
 	return body, "", true
+}
+
+func createQueryExecutionRequest(sqlText, originApp string, biscuitArray, resources []string) (request *http.Request, err error) {
+	postBody, _ := json.Marshal(map[string]interface{}{
+		"biscuits":  biscuitArray,
+		"resources": resources,
+		"sqlText":   sqlText,
+	})
+
+	return createRequest("dql", originApp, postBody)
 }
