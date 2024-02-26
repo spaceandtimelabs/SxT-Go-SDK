@@ -48,8 +48,8 @@ func GenerateAuthCode(userId, joinCode string) (authCode string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	authenticationCode := string(body)
-	return authenticationCode
+
+	return string(body)
 }
 
 // Generate Encoded signature and base64 public key
