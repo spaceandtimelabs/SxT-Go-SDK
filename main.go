@@ -8,13 +8,14 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"sxt-sdks/authentication"
-	"sxt-sdks/authorization"
-	"sxt-sdks/discovery"
-	"sxt-sdks/helpers"
-	"sxt-sdks/sqlcore"
-	"sxt-sdks/sqlview"
-	"sxt-sdks/storage"
+
+	"spaceandtime.io/sxt-sdk/authentication"
+	"spaceandtime.io/sxt-sdk/authorization"
+	"spaceandtime.io/sxt-sdk/discovery"
+	"spaceandtime.io/sxt-sdk/helpers"
+	"spaceandtime.io/sxt-sdk/sqlcore"
+	"spaceandtime.io/sxt-sdk/sqlview"
+	"spaceandtime.io/sxt-sdk/storage"
 )
 
 // Check the command line arguments

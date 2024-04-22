@@ -1,7 +1,6 @@
-module sxt-sdks
+module spaceandtime.io/sxt-sdk
 
 go 1.18
-
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.17.6

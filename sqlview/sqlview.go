@@ -7,7 +7,8 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"sxt-sdks/helpers"
+
+	"spaceandtime.io/sxt-sdk/helpers"
 )
 
 type ParametersRequest struct {

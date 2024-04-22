@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"sxt-sdks/helpers"
+
+	"spaceandtime.io/sxt-sdk/helpers"
 )
 
 // List available namespaces in the blockchain
