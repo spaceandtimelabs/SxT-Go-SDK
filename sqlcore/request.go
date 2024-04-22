@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"sxt-sdks/helpers"
+
+	"spaceandtime.io/sxt-sdk/helpers"
 )
 
 func createRequest(requestType, originApp string, postBody []byte) (request *http.Request, err error) {

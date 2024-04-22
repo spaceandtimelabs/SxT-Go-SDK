@@ -11,7 +11,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"sxt-sdks/helpers"
+
+	"spaceandtime.io/sxt-sdk/helpers"
 
 	b64 "encoding/base64"
 )
