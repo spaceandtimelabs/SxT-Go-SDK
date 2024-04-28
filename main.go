@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/spaceandtimelabs/SxT-Go-SDK/authentication"
 	"github.com/spaceandtimelabs/SxT-Go-SDK/authorization"
@@ -131,8 +130,6 @@ func main() {
 	inputPrivKey := flag.String("privkey", "", "(Optional) Standard base64 encoded private key. But if provided, the remaining values are required")
 	flag.Parse()
 
-	xx := strings.HasSuffix(os.Args[0], ".test")
-	println("~~XX", xx)
 
 	/*************************************
 	// Authentication Block
