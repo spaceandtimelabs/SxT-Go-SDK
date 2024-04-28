@@ -1,8 +1,14 @@
-# go-sxt-sdk (v.0.0.4)
+# go-sxt-sdk (v.0.0.7)
 
 Golang SDK for Space and Time Gateway (go version >= 1.18)
 
-## Installation Instructions
+## Installation instructions
+
+```sh
+go get github.com/spaceandtimelabs/SxT-Go-SDK
+```
+
+## Running locally
 
 _Note: Before running the code, rename `.env.sample` to `.env` and ensure that your credentials are setup in the `.env` file properly. You will need to obtain a `joinCode` and `endpoint` before you can begin_
 

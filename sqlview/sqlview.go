@@ -3,12 +3,12 @@ package sqlview
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
 
-	"spaceandtime.io/sxt-sdk/helpers"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/helpers"
 )
 
 type ParametersRequest struct {
@@ -66,7 +66,7 @@ func Create(resourceId, viewName, viewText, description string, publish bool, pa
 	}
 
 	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return "", err.Error(), false
 	}
@@ -109,7 +109,7 @@ func Execute(viewName string, parametersRequest []ParametersRequest) (errMsg str
 	}
 
 	defer res.Body.Close()
-	_, err = ioutil.ReadAll(res.Body)
+	_, err = io.ReadAll(res.Body)
 	if err != nil {
 		return err.Error(), false
 	}
@@ -167,7 +167,7 @@ func Update(resourceId, viewName, viewText, description string, publish bool, pa
 	}
 
 	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return "", err.Error(), false
 	}
@@ -200,7 +200,7 @@ func Delete(viewName string) (output, errMsg string, status bool) {
 	}
 
 	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return "", err.Error(), false
 	}

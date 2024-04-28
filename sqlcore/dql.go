@@ -2,7 +2,7 @@ package sqlcore
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -21,7 +21,7 @@ func DQL(sqlText, originApp string, biscuitArray, resources []string, rowCount i
 	}
 
 	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return data, err.Error(), false
 	}

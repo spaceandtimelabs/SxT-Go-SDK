@@ -2,12 +2,12 @@ package discovery
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"strings"
 
-	"spaceandtime.io/sxt-sdk/helpers"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/helpers"
 )
 
 // List available namespaces in the blockchain
@@ -183,7 +183,7 @@ func executeRequest(endpoint string) (output string, errMsg string, status bool)
 	}
 
 	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return "", err.Error(), false
 	}

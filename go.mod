@@ -1,4 +1,4 @@
-module spaceandtime.io/sxt-sdk
+module github.com/spaceandtimelabs/SxT-Go-SDK
 
 go 1.18
 
