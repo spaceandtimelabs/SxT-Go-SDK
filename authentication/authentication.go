@@ -7,12 +7,12 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
 
-	"spaceandtime.io/sxt-sdk/helpers"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/helpers"
 
 	b64 "encoding/base64"
 )
@@ -45,7 +45,7 @@ func GenerateAuthCode(userId, joinCode string) (authCode string) {
 	defer resp.Body.Close()
 
 	//Read the response body
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -88,7 +88,7 @@ func GenerateToken(userId, authCode, encodedSignature, base64PublicKey string) (
 	defer resp.Body.Close()
 
 	//Read the response body
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -114,7 +114,7 @@ func RefreshToken(refreshToken string) (tokenStruct TokenStruct, status bool) {
 	}
 
 	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return TokenStruct{}, false
 	}
@@ -144,7 +144,7 @@ func ValidateToken(accessToken string) (status bool) {
 	}
 
 	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		log.Fatalln(err)
 	}

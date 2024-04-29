@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"spaceandtime.io/sxt-sdk/helpers"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/helpers"
 )
 
 func createRequest(requestType, originApp string, postBody []byte) (request *http.Request, err error) {

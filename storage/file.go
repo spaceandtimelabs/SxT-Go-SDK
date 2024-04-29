@@ -4,7 +4,6 @@ import (
 	"crypto/ed25519"
 	"encoding/json"
 	"io/fs"
-	"io/ioutil"
 	"log"
 	"os"
 )
@@ -59,7 +58,7 @@ func FileWriteSession(userId, accessToken, refreshToken string, privateKey ed255
 // Read session data from file: accessToken, refreshToken, publicKey, privateKey
 // Note: This is for demo purposes only. To make a secure session, save the credentials in db or some other secure source
 func FileReadSession(userId string) (sessionStruct FileSessionStruct, status bool) {
-	content, err := ioutil.ReadFile("./tmp/" + userId + ".txt")
+	content, err := os.ReadFile("./tmp/" + userId + ".txt")
 
 	if err != nil || json.Unmarshal(content, &sessionStruct) != nil {
 		return FileSessionStruct{}, false

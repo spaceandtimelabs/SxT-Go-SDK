@@ -2,7 +2,7 @@ package sqlcore
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -20,7 +20,7 @@ func DML(sqlText, originApp string, biscuitArray []string, resources []string) (
 	}
 
 	defer response.Body.Close()
-	body, err := ioutil.ReadAll(response.Body)
+	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		return err.Error(), false
 	}

@@ -9,13 +9,13 @@ import (
 	"log"
 	"os"
 
-	"spaceandtime.io/sxt-sdk/authentication"
-	"spaceandtime.io/sxt-sdk/authorization"
-	"spaceandtime.io/sxt-sdk/discovery"
-	"spaceandtime.io/sxt-sdk/helpers"
-	"spaceandtime.io/sxt-sdk/sqlcore"
-	"spaceandtime.io/sxt-sdk/sqlview"
-	"spaceandtime.io/sxt-sdk/storage"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/authentication"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/authorization"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/discovery"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/helpers"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/sqlcore"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/sqlview"
+	"github.com/spaceandtimelabs/SxT-Go-SDK/storage"
 )
 
 // Check the command line arguments
@@ -123,10 +123,13 @@ func main() {
 
 	var sxtBiscuitCapabilities []authorization.SxTBiscuitStruct
 
+	
+
 	inputUserid := flag.String("userid", "", "(Optional) SxT userid. But if provided, the remaining values are required")
 	inputPubKey := flag.String("pubkey", "", "(Optional) Standard base64 encoded public key. But if provided, the remaining values are required")
 	inputPrivKey := flag.String("privkey", "", "(Optional) Standard base64 encoded private key. But if provided, the remaining values are required")
 	flag.Parse()
+
 
 	/*************************************
 	// Authentication Block
