@@ -116,8 +116,6 @@ func main() {
 
 	/* AUTH BLOCK ENDS */
 
-	
-
 
 	// Call SQL functions
 	utils.SQLAPIs(privateKey, publicKey)
