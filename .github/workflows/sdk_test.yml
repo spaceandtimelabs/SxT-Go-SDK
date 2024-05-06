@@ -10,8 +10,8 @@ on:
     branches: [ "main" ]
 
 env:
-  BASEURL_DISCOVERY: ${{ secrets.BASEURL_DISCOVERY }}
-  BASEURL_GENERAL: ${{ secrets.BASEURL_GENERAL }}
+  BASEURL_DISCOVERY: ${{ vars.BASEURL_DISCOVERY }}
+  BASEURL_GENERAL: ${{ vars.BASEURL_GENERAL }}
   USERID : ${{ secrets.TEST_TRIAL_USERID }}
   TEST_USER: ${{ secrets.TEST_TRIAL_USERID }}
   TEST_USER_PRIVKEY: ${{ secrets.TEST_TRIAL_PRIVKEY }}
