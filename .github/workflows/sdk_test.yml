@@ -12,7 +12,8 @@ on:
 env:
   BASEURL_DISCOVERY: ${{ vars.BASEURL_DISCOVERY }}
   BASEURL_GENERAL: ${{ vars.BASEURL_GENERAL }}
-  SCHEMA : ${{ vars.SCHEMA }}
+  SCHEME : ${{ vars.SCHEME }}
+  JOINCODE : ${{ secrets.JOINCODE }}
   USERID : ${{ secrets.TEST_TRIAL_USERID }}
   TEST_TRIAL_USERID: ${{ secrets.TEST_TRIAL_USERID }}
   TEST_TRIAL_PRIVKEY: ${{ secrets.TEST_TRIAL_PRIVKEY }}
