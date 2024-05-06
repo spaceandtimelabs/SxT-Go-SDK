@@ -9,6 +9,14 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  BASEURL_DISCOVERY: ${{ secrets.BASEURL_DISCOVERY }}
+  BASEURL_GENERAL: ${{ secrets.BASEURL_GENERAL }}
+  USERID : ${{ secrets.TEST_TRIAL_USERID }}
+  TEST_USER: ${{ secrets.TEST_TRIAL_USERID }}
+  TEST_USER_PRIVKEY: ${{ secrets.TEST_TRIAL_PRIVKEY }}
+  TEST_USER_PUBKEY: ${{ secrets.TEST_TRIAL_PUBKEY }}
+
 jobs:
 
   build:
@@ -25,13 +33,8 @@ jobs:
       run: go get .
 
     - name: Test
-      env:
-        BASEURL_DISCOVERY: ${{ secrets.BASEURL_DISCOVERY }}
-        BASEURL_GENERAL: ${{ secrets.BASEURL_GENERAL }}
-        USERID : ${{ secrets.TEST_TRIAL_USERID }}
-        TEST_USER: ${{ secrets.TEST_TRIAL_USERID }}
-        TEST_USER_PRIVKEY: ${{ secrets.TEST_TRIAL_PRIVKEY }}
-        TEST_USER_PUBKEY: ${{ secrets.TEST_TRIAL_PUBKEY }}
-        
       run: go test -v ./...
+
+    - name: Environment list
+      run: env
 
