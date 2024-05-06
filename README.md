@@ -1,4 +1,4 @@
-# go-sxt-sdk (v.0.0.7)
+# go-sxt-sdk (v.0.0.8)
 
 Golang SDK for Space and Time Gateway (go version >= 1.18)
 
@@ -87,7 +87,7 @@ The generated `AccessToken` is valid for 25 minutes and the `refreshToken` for 3
 ```go
 // New Authentication.
 // Generates new accessToken, refreshToken, privateKey, and publicKey
-func authenticate()(accessToken, refreshToken string, privateKey ed25519.PrivateKey, publicKey ed25519.PublicKey){
+func Authenticate()(accessToken, refreshToken string, privateKey ed25519.PrivateKey, publicKey ed25519.PublicKey){
 
     // Read userId, joinCode from .env file
 	userId, _ := helpers.ReadUserId()
