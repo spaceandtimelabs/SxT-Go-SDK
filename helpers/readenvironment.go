@@ -3,13 +3,21 @@ package helpers
 import (
 	"log"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 // Read User Id from Environment
 func ReadUserId() (value string, ok bool){
+	
 	value, ok = os.LookupEnv("USERID")
 	if !ok {
-		log.Fatal("USERID not set in environment")
+		envFile, _ := godotenv.Read(".env")
+		value = envFile["USERID"]
+
+		if value == ""{
+			log.Fatal("USERID not set in environment")
+		}
 	}
 
 	return value, true
@@ -19,7 +27,12 @@ func ReadUserId() (value string, ok bool){
 func ReadJoinCode() (value string, ok bool){
 	value, ok = os.LookupEnv("JOINCODE")
 	if !ok {
-		log.Println("JOINCODE not set in environment")
+		envFile, _ := godotenv.Read(".env")
+		value = envFile["JOINCODE"]
+
+		if value == ""{
+			log.Fatal("JOINCODE not set in environment")
+		}
 	}
 	
 	return value, true
@@ -27,10 +40,14 @@ func ReadJoinCode() (value string, ok bool){
 
 // Read API End Point Discovery from Environment 
 func ReadEndPointDiscovery() (value string, ok bool){
-
 	value, ok = os.LookupEnv("BASEURL_DISCOVERY")
 	if !ok {
-		log.Fatal("Discovery BASEURL not set in environment")
+		envFile, _ := godotenv.Read(".env")
+		value = envFile["BASEURL_DISCOVERY"]
+
+		if value == ""{
+			log.Fatal("BASEURL_DISCOVERY not set in environment")
+		}
 	}
 	return value, true
 }
@@ -40,7 +57,12 @@ func ReadEndPointGeneral() (value string, ok bool){
 
 	value, ok = os.LookupEnv("BASEURL_GENERAL")
 	if !ok {
-		log.Fatal("General BASEURL not set in environment")
+		envFile, _ := godotenv.Read(".env")
+		value = envFile["BASEURL_GENERAL"]
+
+		if value == ""{
+			log.Fatal("BASEURL_GENERAL not set in environment")
+		}
 	}
 
 	return value, true
@@ -50,8 +72,12 @@ func ReadEndPointGeneral() (value string, ok bool){
 func ReadScheme() (value string, ok bool){
 	value, ok = os.LookupEnv("SCHEME")
 	if !ok {
-		log.Fatal("SCHEME not set in environment")
-	}
+		envFile, _ := godotenv.Read(".env")
+		value = envFile["SCHEME"]
 
+		if value == ""{
+			log.Fatal("SCHEME not set in environment")
+		}
+	}
 	return value, true
 }
