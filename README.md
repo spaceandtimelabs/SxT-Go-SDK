@@ -266,10 +266,12 @@ SCHEME="ed25519"  # The key scheme or algorithm required for key generation
 ```go
 func main() {
 
+	// Load env file
 	godotenv.Load(".env")
 
 	var biscuits, resources []string
 
+	// env variables
 	inputUserID := os.Getenv("USERID")
 	pubKey := os.Getenv("PUB_KEY")
 	privKey := os.Getenv("PRIV_KEY")
@@ -281,7 +283,7 @@ func main() {
 	}
 
 	// public key
-	// Some languages generate 32-byte private key while some generate 64-byte ones. For such cases, 64-byte pvt key = 32-byte actual private key + 32-byte public key
+	// Some languages generate 32-byte private key while some generate 64-byte ones. For the later cases, 64-byte pvt key = 32-byte actual private key + 32-byte public key
 	pubKeyBytes, err := base64.StdEncoding.DecodeString(pubKey)
 	if err != nil {
 		log.Println("Public key decoding to []bytes error", err)
