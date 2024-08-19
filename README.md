@@ -1,4 +1,4 @@
-# go-sxt-sdk (v.0.0.8)
+# go-sxt-sdk
 
 Golang SDK for Space and Time Gateway (go version >= 1.18)
 
