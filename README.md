@@ -283,7 +283,7 @@ func main() {
 	}
 
 	// public key
-	// Some languages generate 32-byte private key while some generate 64-byte ones. For the later cases, 64-byte pvt key = 32-byte actual private key + 32-byte public key
+	// Some languages generate a 32-byte private key while some generate 64-byte ones. For the later cases, 64-byte pvt key = 32-byte actual private key + 32-byte public key
 	pubKeyBytes, err := base64.StdEncoding.DecodeString(pubKey)
 	if err != nil {
 		log.Println("Public key decoding to []bytes error", err)
