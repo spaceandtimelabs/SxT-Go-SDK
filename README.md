@@ -1,4 +1,4 @@
-# go-sxt-sdk (v.0.0.8)
+# go-sxt-sdk
 
 Golang SDK for Space and Time Gateway (go version >= 1.18)
 
@@ -235,4 +235,83 @@ storage.AwsWriteSession(userId, tokenStruct.AccessToken, tokenStruct.RefreshToke
 storage.AwsReadSession(userId)
 
 storage.AwsUpdateSession(userId, accessToken, refreshToken, privateKey, publicKey)
+```
+
+## Configuring a project with SxT SDK
+
+1. Import library
+
+```go
+go get github.com/spaceandtimelabs/SxT-Go-SDK
+```
+
+2. (Optional) Create a tmp folder in the project root to save user session information (default option). The other options include AWS secrets manager which is not discussed here
+
+```sh
+mkdir tmp
+```
+
+3. Copy all the `.env.sample` parameters to your environment file
+
+```sh
+BASEURL_GENERAL="https://<base_url>/v1" # Space and Time General API Endpoint
+BASEURL_DISCOVERY="https://<base_url>/v2"  # Space and Time Discovery API Endpoint
+USERID="" # UserID required for authentication and authorization
+JOINCODE="" # Space and Time Join Code which can be got from the SxT release team
+SCHEME="ed25519"  # The key scheme or algorithm required for key generation
+```
+
+4. Integration code
+
+```go
+func main() {
+
+	// Load env file
+	godotenv.Load(".env")
+
+	var biscuits, resources []string
+
+	// env variables
+	inputUserID := os.Getenv("USERID")
+	pubKey := os.Getenv("PUB_KEY")
+	privKey := os.Getenv("PRIV_KEY")
+
+	// Private key to byte array
+	pvtKeyBytes, err := base64.StdEncoding.DecodeString(privKey)
+	if err != nil {
+		log.Println("Private key decoding to []bytes error", err)
+	}
+
+	// public key
+	// Some languages generate a 32-byte private key while some generate 64-byte ones. For the later cases, 64-byte pvt key = 32-byte actual private key + 32-byte public key
+	pubKeyBytes, err := base64.StdEncoding.DecodeString(pubKey)
+	if err != nil {
+		log.Println("Public key decoding to []bytes error", err)
+	}
+	if len(pvtKeyBytes) < 64 {
+		pubKeyBytes = append(pubKeyBytes, pubKeyBytes...)
+		privKey = base64.StdEncoding.EncodeToString(pvtKeyBytes)
+	}
+
+	// Authenticate and get accessToken
+	accessToken, _, _, _, err := utils.Authenticate(inputUserID, pubKey, privKey)
+	if err != nil {
+		log.Println("Authentication error: ", err)
+	}
+
+	// Important: Save access token to env
+	os.Setenv("accessToken", accessToken)
+
+	// Preparing to call DML
+	biscuits = append(biscuits, "actual_biscuit_string")
+	resources = append(resources, "schema_name.table_name")
+
+	sqlQuery :=  "INSERT INTO schema_name.tablename VALUES(....)"
+
+	errString, status := sqlcore.DML(sqlQuery, "", biscuits, resources)
+	if !status{
+		log.Println("Error inserting record to Space and Time: ", errString)
+	}
+
+}
 ```
