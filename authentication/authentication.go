@@ -40,7 +40,7 @@ func GenerateAuthCode(userId, joinCode string) (authCode string) {
 
 	//Handle Error
 	if err != nil {
-		log.Fatalf("An Error Occured %v", err)
+		log.Fatalf("An Error Occurred %v", err)
 	}
 	defer resp.Body.Close()
 
@@ -83,7 +83,7 @@ func GenerateToken(userId, authCode, encodedSignature, base64PublicKey string) (
 
 	//Handle Error
 	if err != nil {
-		log.Fatalf("An Error Occured %v", err)
+		log.Fatalf("An Error Occurred %v", err)
 	}
 	defer resp.Body.Close()
 
