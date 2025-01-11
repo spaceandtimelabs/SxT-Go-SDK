@@ -30,7 +30,7 @@ func isFlagPassed(name string) int {
 func main() {
 
 	fmt.Println("")
-	fmt.Println("For exisiting users")
+	fmt.Println("For existing users")
 	fmt.Println("Usage: go run main.go -userid=<USERID> -pubkey=<BASE64 STD ENCODED PUBLIC KEY> -privkey=<BASE64 STD ENCODED PRIVATE KEY>")
 	fmt.Println("")
 
