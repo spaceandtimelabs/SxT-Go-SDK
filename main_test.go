@@ -32,7 +32,7 @@ func TestAuthentication(t *testing.T){
 	_, _, privKeyBytes, pubKeyBytes, err := utils.Authenticate(userId, pubKeyB64, privKeyB64)
 
 	if err != nil {
-		t.Errorf("Autentication error %q", err)
+		t.Errorf("Authentication error %q", err)
 	}
 
 	pubKey = pubKeyBytes
